@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" prefHeight="604.0" prefWidth="482.0" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/22" fx:controller="br.com.etec.aula20240906.HelloController">
+<VBox alignment="TOP_CENTER" prefHeight="636.0" prefWidth="482.0" spacing="20.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.etec.aula20240906.HelloController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
@@ -86,6 +86,20 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Button>
-      <TextArea fx:id="txtAreaDados" prefHeight="259.0" prefWidth="442.0" />
+      <HBox alignment="CENTER" prefHeight="30.0" prefWidth="437.0" spacing="2.0">
+         <children>
+            <TextField fx:id="txtBusca" prefHeight="44.0" prefWidth="325.0" promptText="Digite o código: ">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </TextField>
+            <Button fx:id="btnPesquisar" mnemonicParsing="false" onAction="#onBuscarCliente" prefHeight="44.0" prefWidth="118.0" text="Pesquisar">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+      <TextArea fx:id="txtAreaDados" prefHeight="220.0" prefWidth="442.0" />
    </children>
 </VBox>
