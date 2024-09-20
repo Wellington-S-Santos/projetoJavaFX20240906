@@ -3,6 +3,9 @@ package etec.sp.gov.br.atividadeavaliativa;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HelloController {
     @FXML
     private Button btnRegistrar;
@@ -36,12 +39,12 @@ public class HelloController {
     private TextArea txtAreaDados;
 
     private Conta conta;
-    private  List<Conta> listaContas = new ArrayList<>();
+    private List<Conta> listaContas = new ArrayList<>();
     @FXML
     protected void onClickRegistrar(){
         int id = listaContas.size()+ 1;
         if (rbtCorrente.isSelected()){
-            conta = new Conta(id,txtNConta.getText(),txtNTitular.getText(),txtValor.getText())
+            conta = new Conta(id,txtNConta.getText(),txtNTitular.getText(),txtValor.getText());
         }
     }
 
