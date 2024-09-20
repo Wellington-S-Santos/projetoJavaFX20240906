@@ -4,11 +4,13 @@ public class Conta {
     private Integer numero;
     private String titular;
     private Double saldo;
+    private Conta conta;
 
-    public Conta(java.lang.Integer numero, java.lang.String titular, double saldo,) {
+    public Conta(java.lang.Integer numero, java.lang.String titular, java.lang.Double saldo) {
         this.numero = numero;
         this.titular = titular;
-        this.saldo = 0.0;
+        this.saldo = saldo != null ? saldo : 0.0;;
+
     }
 
     public java.lang.Integer getNumero() {
@@ -43,10 +45,10 @@ public class Conta {
 
     public void depositar(Double valor){
         if (valor>=50 && valor <= 2000)
-        this.saldo = this.saldo + valor;
+        this.saldo += valor;
     }
     public void sacar (Double valor){
-        this.saldo = this.saldo - valor;
+        this.saldo -= valor;
     }
 
 

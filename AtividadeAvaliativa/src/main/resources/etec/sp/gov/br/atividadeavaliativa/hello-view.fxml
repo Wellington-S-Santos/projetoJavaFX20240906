@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="706.0" prefWidth="640.0" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/22" fx:controller="etec.sp.gov.br.atividadeavaliativa.HelloController">
+<VBox prefHeight="723.0" prefWidth="640.0" spacing="10.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="etec.sp.gov.br.atividadeavaliativa.HelloController">
   <padding>
     <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
   </padding>
@@ -118,5 +118,33 @@
          </Button>
       </children>
    </HBox>
-   <TextArea fx:id="txtAreaDados" prefHeight="200.0" prefWidth="200.0" />
+   <HBox alignment="CENTER" prefHeight="40.0" prefWidth="581.0" spacing="10.0">
+      <children>
+         <Label text="Saldo: ">
+            <font>
+               <Font name="System Bold" size="20.0" />
+            </font>
+         </Label>
+         <Label fx:id="lbSaldo" text="0,00">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+      </children>
+   </HBox>
+   <HBox alignment="CENTER" prefHeight="48.0" prefWidth="475.0" spacing="5.0">
+      <children>
+         <Button fx:id="btnPesquisar" mnemonicParsing="false" text="Pesquisar">
+            <font>
+               <Font name="System Bold" size="20.0" />
+            </font>
+         </Button>
+         <TextField fx:id="txtPesquisar" alignment="TOP_LEFT" prefHeight="44.0" prefWidth="479.0" promptText="Digite o número da conta:">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </TextField>
+      </children>
+   </HBox>
+   <TextArea fx:id="txtAreaDados" prefHeight="221.0" prefWidth="600.0" />
 </VBox>
