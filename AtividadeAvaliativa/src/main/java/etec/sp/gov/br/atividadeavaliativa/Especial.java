@@ -1,18 +1,39 @@
 package etec.sp.gov.br.atividadeavaliativa;
 
 public class Especial extends Conta{
-    private Integer limite;
+    private Double limite;
 
-    public Especial(java.lang.Integer numero, java.lang.String titular, java.lang.Double saldo, java.lang.Integer limite) {
-        super(numero, titular, saldo);
+    public Especial(Integer numero, String titular, Double limite) {
+        super(numero, titular);
         this.limite = limite;
     }
 
-    public java.lang.Integer getLimite() {
+
+
+    @Override
+    public Boolean sacar(Double valor) {
+        if (valor<=(this.getSaldo()+ this.limite)){
+            this.setSaldo(this.getSaldo()-valor);
+            return true;
+
+        }else {
+            return false;
+        }
+    }
+
+    public Double getLimite() {
         return limite;
     }
 
-    public void setLimite(java.lang.Integer limite) {
+    public void setLimite(Double limite) {
         this.limite = limite;
+    }
+
+
+    @Override
+    public String toString() {
+        return"numero=" + this.getNumero() +
+                ", titular='" + this.getTitular() + '\'' +
+                ", saldo=" + this.getSaldo() +", limite=" + limite + System.lineSeparator();
     }
 }

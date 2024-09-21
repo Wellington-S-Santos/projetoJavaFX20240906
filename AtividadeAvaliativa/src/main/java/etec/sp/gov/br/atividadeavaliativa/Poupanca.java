@@ -1,18 +1,28 @@
 package etec.sp.gov.br.atividadeavaliativa;
 
-public class Poupanca extends Conta{
+import java.util.Date;
+
+public class Poupanca extends Conta {
     private Integer aniversario;
 
-    public Poupanca(java.lang.Integer numero, java.lang.String titular, double saldo, java.lang.Integer aniversario) {
-        super(numero, titular, saldo);
+    public Poupanca(Integer numero, String titular, Integer aniversario) {
+        super(numero, titular);
         this.aniversario = aniversario;
     }
 
-    public java.lang.Integer getAniversario() {
+
+    public Integer getAniversario() {
         return aniversario;
     }
 
-    public void setAniversario(java.lang.Integer aniversario) {
+    public void setAniversario(Integer aniversario) {
         this.aniversario = aniversario;
+    }
+
+    @Override
+    public String toString() {
+        return"numero=" + this.getNumero() +
+                ", titular='" + this.getTitular() + '\'' +
+                ", saldo=" + this.getSaldo() +", aniversario=" + aniversario + System.lineSeparator();
     }
 }

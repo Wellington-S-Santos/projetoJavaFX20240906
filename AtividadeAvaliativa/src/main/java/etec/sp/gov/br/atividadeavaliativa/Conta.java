@@ -4,13 +4,22 @@ public class Conta {
     private Integer numero;
     private String titular;
     private Double saldo;
-    private Conta conta;
 
-    public Conta(java.lang.Integer numero, java.lang.String titular, java.lang.Double saldo) {
+
+    public Conta(java.lang.Integer numero, java.lang.String titular) {
         this.numero = numero;
         this.titular = titular;
-        this.saldo = saldo != null ? saldo : 0.0;;
+        this.saldo =  0.0;
 
+    }
+
+
+    public Double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(Double saldo) {
+        this.saldo = saldo;
     }
 
     public java.lang.Integer getNumero() {
@@ -29,13 +38,6 @@ public class Conta {
         this.titular = titular;
     }
 
-    public Conta getConta() {
-        return conta;
-    }
-
-    public void setConta(Conta conta) {
-        this.conta = conta;
-    }
 
 
     protected void sacar(){
@@ -43,14 +45,24 @@ public class Conta {
     }
 
 
-    public void depositar(Double valor){
-        if (valor>=50 && valor <= 2000)
-        this.saldo += valor;
+    public void depositar(Double valor) {
+        if (valor >= 50 && valor <= 2000)
+            this.saldo += valor;
     }
-    public void sacar (Double valor){
+
+    public Boolean sacar (Double valor){
+        if (valor<= this.saldo){
         this.saldo -= valor;
+        return true;
+        } else {
+            return false;
+        }
     }
 
-
-
+    @Override
+    public String toString() {
+        return"numero=" + numero +
+                ", titular='" + titular + '\'' +
+                ", saldo=" + saldo + System.lineSeparator();
+    }
 }

@@ -45,17 +45,17 @@
    </HBox>
    <HBox alignment="CENTER" prefHeight="48.0" prefWidth="475.0" spacing="10.0">
       <children>
-         <RadioButton fx:id="rbtCorrente" mnemonicParsing="false" text="Corrente">
+         <RadioButton fx:id="rbtCorrente" mnemonicParsing="false" onMouseClicked="#onSelecionarTipo" text="Corrente">
             <font>
                <Font name="System Bold" size="20.0" />
             </font>
          </RadioButton>
-         <RadioButton fx:id="rbtEspecial" mnemonicParsing="false" text="Especial">
+         <RadioButton fx:id="rbtEspecial" mnemonicParsing="false" onMouseClicked="#onSelecionarTipo" text="Especial">
             <font>
                <Font name="System Bold" size="20.0" />
             </font>
          </RadioButton>
-         <RadioButton fx:id="rbtPoupanca" mnemonicParsing="false" text="Popança">
+         <RadioButton fx:id="rbtPoupanca" mnemonicParsing="false" onMouseClicked="#onSelecionarTipo" text="Popança">
             <font>
                <Font name="System Bold" size="20.0" />
             </font>
@@ -94,7 +94,7 @@
          </VBox>
       </children>
    </HBox>
-   <Button fx:id="btnRegistrar" mnemonicParsing="false" prefHeight="47.0" prefWidth="600.0" text="Registrar">
+   <Button fx:id="btnRegistrar" mnemonicParsing="false" onAction="#onClickRegistrar" prefHeight="47.0" prefWidth="600.0" text="Registrar">
       <font>
          <Font name="System Bold" size="20.0" />
       </font>
