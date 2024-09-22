@@ -42,48 +42,48 @@ public class HelloController {
     private Conta conta;
 
 
-
-
     private List<Conta> Contas = new ArrayList<>();
 
     @FXML
-    protected void onSelecionarTipo(){
-        if (rbtCorrente.isSelected()){
+    protected void onSelecionarTipo() {
+        if (rbtCorrente.isSelected()) {
             txtLimite.setDisable(true);
             txtDVencimento.setDisable(true);
         } else if (rbtEspecial.isSelected()) {
             txtLimite.setDisable(false);
             txtDVencimento.setDisable(true);
-        }else {
+        } else {
             txtLimite.setDisable(true);
             txtDVencimento.setDisable(false);
         }
     }
-    @FXML
-    protected void onClickRegistrar(){
 
-        if (rbtCorrente.isSelected()){
-            Conta conta = new Conta(Integer.parseInt(txtNConta.getText()),txtNTitular.getText());
+    @FXML
+    protected void onClickRegistrar() {
+
+        if (rbtCorrente.isSelected()) {
+            Conta conta = new Conta(Integer.parseInt(txtNConta.getText()), txtNTitular.getText());
 
             Contas.add(conta);
             txtAreaDados.setText(Contas.toString());
             limparCampos();
         } else if (rbtEspecial.isSelected()) {
-             Especial especial= new Especial(Integer.parseInt(txtNConta.getText()),txtNTitular.getText(),Double.parseDouble(txtLimite.getText()));
+            Especial especial = new Especial(Integer.parseInt(txtNConta.getText()), txtNTitular.getText(), Double.parseDouble(txtLimite.getText()));
 
             Contas.add(especial);
             txtAreaDados.setText(Contas.toString());
             limparCampos();
-        } else  {
-            Poupanca poupanca = new Poupanca(Integer.parseInt(txtNConta.getText()),txtNTitular.getText(),Integer.parseInt(txtDVencimento.getText()) );
+        } else {
+            Poupanca poupanca = new Poupanca(Integer.parseInt(txtNConta.getText()), txtNTitular.getText(), Integer.parseInt(txtDVencimento.getText()));
             Contas.add(poupanca);
-            txtAreaDados.setText(Contas.toString() );
+            txtAreaDados.setText(Contas.toString());
             limparCampos();
 
         }
 
     }
-    private void limparCampos (){
+
+    private void limparCampos() {
         txtNConta.setText("");
         txtNTitular.setText("");
         txtLimite.setText(" ");
@@ -95,11 +95,96 @@ public class HelloController {
         txtNConta.requestFocus();
     }
 
+    @FXML
+    protected void onDepositarDinheiro (){
+        boolean contaEncontrada = false;
 
 
+        for (int x = 0; x < Contas.size(); x++) {
+            Conta conta = Contas.get(x);
+            if (Integer.parseInt(txtNConta.getText()) == Contas.get(x).getNumero()) {
+                contaEncontrada = true;
+
+                if (rbtCorrente.isSelected() || rbtEspecial.isSelected() || rbtPoupanca.isSelected() ) {
+                    conta.depositar(Double.parseDouble(txtValor.getText()));
+                }
+                Alert alertSucesso = new Alert(Alert.AlertType.INFORMATION);
+                alertSucesso.setTitle("Deposito realizado!!!");
+                alertSucesso.setHeaderText("Deposito efeetuado com Sucesso!!");
+                alertSucesso.setContentText("Depositado na conta: " + txtNConta.getText());
+                alertSucesso.show();
+
+                break;
+            }
+        }
 
 
+        if (!contaEncontrada) {
+            Alert alertError = new Alert(Alert.AlertType.ERROR);
+            alertError.setTitle("Erro");
+            alertError.setHeaderText("Erro de busca.");
+            alertError.setContentText("O conta não encontrada.");
+            alertError.show();
+            return;
+        }
 
+    }
+
+
+    @FXML
+    protected void OnPesquisarConta(){
+        Integer pqNConta;
+        boolean contaEncontrada = false;
+        try {
+            pqNConta = Integer.parseInt(txtPesquisar.getText());
+
+        } catch (Exception err){
+            Alert alertError = new Alert(Alert.AlertType.ERROR);
+            alertError.setTitle("Erro");
+            alertError.setHeaderText("Erro de conversão");
+            alertError.setContentText("O campo não é um número valido");
+            alertError.show();
+            return;
+        }
+        for (int i = 0; i < Contas.size(); i++) {
+            if (Contas.get(i).getNumero() == pqNConta){
+                contaEncontrada = true;
+                Conta conta1 = Contas.get(i);
+                populaCampos(conta1);
+                break;
+            }
+        }
+        if (!contaEncontrada) {
+            Alert alertError = new Alert(Alert.AlertType.ERROR);
+            alertError.setTitle("Erro");
+            alertError.setHeaderText("Erro de busca.");
+            alertError.setContentText("O conta não encontrada.");
+            alertError.show();
+            return;
+        }
+    }
+
+
+    private void populaCampos(Conta con) {
+        txtNConta.setText(String.valueOf(con.getNumero()));
+        txtNTitular.setText(con.getTitular());
+
+        if (rbtCorrente.isSelected()) {
+            rbtCorrente.setSelected(true);
+
+        } else if (rbtEspecial.isSelected()) {
+            // Para Conta Especial, criamos um objeto Especial e preenchemos os campos correspondentes
+            Especial esp = (Especial) con;
+            txtLimite.setText(String.valueOf(esp.getLimite()));
+            rbtEspecial.setSelected(true);
+
+        } else if (rbtPoupanca.isSelected()) {
+            Poupanca poup = (Poupanca) con;
+            txtDVencimento.setText(String.valueOf(poup.getAniversario()));
+            rbtPoupanca.setSelected(true);
+        }
+    }
 
 
 }
+

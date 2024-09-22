@@ -101,7 +101,7 @@
    </Button>
    <HBox alignment="CENTER" prefHeight="48.0" prefWidth="475.0" spacing="5.0">
       <children>
-         <Button fx:id="btnDeposito" mnemonicParsing="false" text="Depositar">
+         <Button fx:id="btnDeposito" mnemonicParsing="false" onAction="#onDepositarDinheiro" text="Depositar">
             <font>
                <Font name="System Bold" size="20.0" />
             </font>
@@ -134,7 +134,7 @@
    </HBox>
    <HBox alignment="CENTER" prefHeight="48.0" prefWidth="475.0" spacing="5.0">
       <children>
-         <Button fx:id="btnPesquisar" mnemonicParsing="false" text="Pesquisar">
+         <Button fx:id="btnPesquisar" mnemonicParsing="false" onAction="#OnPesquisarConta" text="Pesquisar">
             <font>
                <Font name="System Bold" size="20.0" />
             </font>
