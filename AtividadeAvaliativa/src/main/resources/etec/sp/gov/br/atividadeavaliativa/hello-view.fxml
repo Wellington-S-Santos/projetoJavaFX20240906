@@ -6,6 +6,7 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -49,13 +50,16 @@
             <font>
                <Font name="System Bold" size="20.0" />
             </font>
+            <toggleGroup>
+               <ToggleGroup fx:id="grpTipocontas" />
+            </toggleGroup>
          </RadioButton>
-         <RadioButton fx:id="rbtEspecial" mnemonicParsing="false" onMouseClicked="#onSelecionarTipo" text="Especial">
+         <RadioButton fx:id="rbtEspecial" mnemonicParsing="false" onMouseClicked="#onSelecionarTipo" text="Especial" toggleGroup="$grpTipocontas">
             <font>
                <Font name="System Bold" size="20.0" />
             </font>
          </RadioButton>
-         <RadioButton fx:id="rbtPoupanca" mnemonicParsing="false" onMouseClicked="#onSelecionarTipo" text="Popança">
+         <RadioButton fx:id="rbtPoupanca" mnemonicParsing="false" onMouseClicked="#onSelecionarTipo" text="Popança" toggleGroup="$grpTipocontas">
             <font>
                <Font name="System Bold" size="20.0" />
             </font>
@@ -111,7 +115,7 @@
                <Font size="20.0" />
             </font>
          </TextField>
-         <Button fx:id="btnSacar" mnemonicParsing="false" text="Sacar">
+         <Button fx:id="btnSacar" mnemonicParsing="false" onAction="#onSacarDinheiro" text="Sacar">
             <font>
                <Font name="System Bold" size="20.0" />
             </font>
