@@ -45,7 +45,7 @@ public class HelloController {
 
 
 
-    private List<Conta> Contas = new ArrayList<>();
+    private List<Conta> lContas= new ArrayList<>();
 
     @FXML
     protected void onSelecionarTipo() {
@@ -65,8 +65,8 @@ public class HelloController {
     protected void onClickRegistrar() {
         boolean contaExistente = false;
 
-        for (int j = 0; j < Contas.size(); j++) {
-            if (Contas.get(j).getNumero() == Integer.parseInt(txtNConta.getText())) {
+        for (int j = 0; j < lContas.size(); j++) {
+            if (lContas.get(j).getNumero() == Integer.parseInt(txtNConta.getText())) {
                 contaExistente = true;
                 break;
             }
@@ -74,20 +74,20 @@ public class HelloController {
         if (!contaExistente){
             if (rbtCorrente.isSelected()) {
                 Conta conta = new Conta(Integer.parseInt(txtNConta.getText()), txtNTitular.getText());
-                Contas.add(conta);
+                lContas.add(conta);
 
             } else if (rbtEspecial.isSelected()) {
                 Especial especial = new Especial(Integer.parseInt(txtNConta.getText()), txtNTitular.getText(), Double.parseDouble(txtLimite.getText()));
-                Contas.add(especial);
+                lContas.add(especial);
 
                 } else if (rbtPoupanca.isSelected()) {
 
                     Poupanca poupanca = new Poupanca(Integer.parseInt(txtNConta.getText()), txtNTitular.getText(), Integer.parseInt(txtDVencimento.getText()));
-                    Contas.add(poupanca);
+                    lContas.add(poupanca);
 
                 }
 
-            txtAreaDados.setText(Contas.toString());
+            atualizar();
             limparCampos();
 
                 Alert alertconta = new Alert(Alert.AlertType.INFORMATION);
@@ -122,15 +122,16 @@ public class HelloController {
         boolean contaEncontrada = false;
 
 
-        for (int x = 0; x < Contas.size(); x++) {
-            Conta conta = Contas.get(x);
-            if (Integer.parseInt(txtNConta.getText()) == Contas.get(x).getNumero()) {
+        for (int x = 0; x < lContas.size(); x++) {
+            Conta conta = lContas.get(x);
+            if (Integer.parseInt(txtNConta.getText()) == lContas.get(x).getNumero()) {
                 contaEncontrada = true;
 
                 if (rbtCorrente.isSelected() || rbtEspecial.isSelected() || rbtPoupanca.isSelected() ) {
                     conta.depositar(Double.parseDouble(txtValor.getText()));
                     lbSaldo.setText(String.valueOf(conta.getSaldo()));
                     limparCampos();
+                    atualizar();
 
 
                 }
@@ -161,30 +162,55 @@ public class HelloController {
         boolean contaEncontrada = false;
 
 
-        for (int x = 0; x < Contas.size(); x++) {
-            Conta conta = Contas.get(x);
-            if (Integer.parseInt(txtNConta.getText()) == Contas.get(x).getNumero()) {
+
+        for (int x = 0; x < lContas.size(); x++) {
+            Conta conta = lContas.get(x);
+
+            if (Integer.parseInt(txtNConta.getText()) == lContas.get(x).getNumero()) {
                 contaEncontrada = true;
+                boolean saqueRealizado = false;
 
-                if (rbtCorrente.isSelected() || rbtPoupanca.isSelected() ) {
-                    conta.sacar(Double.parseDouble(txtValor.getText()));
-                    lbSaldo.setText(String.valueOf(conta.getSaldo()));
-                    limparCampos();
+                if (rbtEspecial.isSelected() || rbtPoupanca.isSelected() || rbtCorrente.isSelected()) {
+                    saqueRealizado = true;
+                    if (rbtCorrente.isSelected() || rbtPoupanca.isSelected()) {
+                        conta.sacar(Double.parseDouble(txtValor.getText()));
+                        lbSaldo.setText(String.valueOf(conta.getSaldo()));
+                        limparCampos();
+                        atualizar();
 
 
-                } else if (rbtEspecial.isSelected()) {
-                    Especial especial = (Especial) conta;
-                    especial.sacar(Double.parseDouble(txtValor.getText()));
-                    lbSaldo.setText(String.valueOf(conta.getSaldo()));
-                    limparCampos();
+                        Alert alertSSucesso = new Alert(Alert.AlertType.INFORMATION);
+                        alertSSucesso.setTitle("Saque realizado!!!");
+                        alertSSucesso.setHeaderText("Saque efetuado com Sucesso!!");
+                        alertSSucesso.setContentText("Saque da conta: " + txtNConta.getText());
+                        alertSSucesso.show();
+
+
+                    } else if (rbtEspecial.isSelected()) {
+                        Especial especial = (Especial) conta;
+                        especial.sacar(Double.parseDouble(txtValor.getText()));
+                        lbSaldo.setText(String.valueOf(especial.getSaldo()));
+                        limparCampos();
+                        atualizar();
+
+
+                        Alert alertSSucesso = new Alert(Alert.AlertType.INFORMATION);
+                        alertSSucesso.setTitle("Saque realizado!!!");
+                        alertSSucesso.setHeaderText("Saque efetuado com Sucesso!!");
+                        alertSSucesso.setContentText("Saque da conta: " + txtNConta.getText());
+                        alertSSucesso.show();
+                        break;
+                    }
+
                 }
-                Alert alertSSucesso = new Alert(Alert.AlertType.INFORMATION);
-                alertSSucesso.setTitle("Saque realizado!!!");
-                alertSSucesso.setHeaderText("Saque efetuado com Sucesso!!");
-                alertSSucesso.setContentText("Saque da conta: " + txtNConta.getText());
-                alertSSucesso.show();
-
-                break;
+                if (!saqueRealizado) {
+                    Alert alertSError = new Alert(Alert.AlertType.ERROR);
+                    alertSError.setTitle("Erro");
+                    alertSError.setHeaderText("Saldo insuficiente!!");
+                    alertSError.setContentText("Saldo: "+ conta.getSaldo());
+                    alertSError.show();
+                    return;
+                }
             }
         }
 
@@ -199,8 +225,12 @@ public class HelloController {
         }
 
     }
+    private void atualizar (){
+        for (int x = 0; x < lContas.size(); x++) {
+                txtAreaDados.setText(lContas.toString());
 
-
+        }
+    }
 
 
     @FXML
@@ -218,10 +248,10 @@ public class HelloController {
             alertError.show();
             return;
         }
-        for (int i = 0; i < Contas.size(); i++) {
-            if (Contas.get(i).getNumero() == pqNConta){
+        for (int i = 0; i < lContas.size(); i++) {
+            if (lContas.get(i).getNumero() == pqNConta){
                 contaEncontrada = true;
-                Conta conta1 = Contas.get(i);
+                Conta conta1 = lContas.get(i);
                 populaCampos(conta1);
                 break;
             }
@@ -245,7 +275,7 @@ public class HelloController {
             rbtCorrente.setSelected(true);
 
         } else if (rbtEspecial.isSelected()) {
-            // Para Conta Especial, criamos um objeto Especial e preenchemos os campos correspondentes
+            // Para Conta Especial, cria-se um objeto Especial e preenchemos os campos correspondentes
             Especial esp = (Especial) con;
             txtLimite.setText(String.valueOf(esp.getLimite()));
             rbtEspecial.setSelected(true);
@@ -256,7 +286,5 @@ public class HelloController {
             rbtPoupanca.setSelected(true);
         }
     }
-
-
 }
 
