@@ -1,4 +1,4 @@
-package br.com.etec.aula20240906;
+package br.com.etec.aula20240906.model;
 
 public class Cliente {
     private Integer id;
@@ -15,6 +15,10 @@ public class Cliente {
         this.telefone = telefone;
         this.sexo = sexo;
         this.casado = casado;
+    }
+
+    public Cliente() {
+
     }
 
     public Integer getId() {
