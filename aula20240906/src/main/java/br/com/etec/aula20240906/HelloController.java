@@ -1,14 +1,21 @@
 package br.com.etec.aula20240906;
 
+import br.com.etec.aula20240906.model.dao.ClienteDao;
+import br.com.etec.aula20240906.model.database.Database;
+import br.com.etec.aula20240906.model.database.DatabaseFactory;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import br.com.etec.aula20240906.model.Cliente;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HelloController {
-
+    //atributos para manipulação do banco de dados.
+    private final Database database = DatabaseFactory.getDatabase("mysql");
+    private final Connection connection = database.conectar();
+    private final ClienteDao clienteDao = new ClienteDao();
 
     @FXML
     private Button btnCadastar;
@@ -36,8 +43,10 @@ public class HelloController {
 
     @FXML
     private TextField txtTelefone;
+
     @FXML
     private  TextField txtBusca;
+
     @FXML
     private Button btnPesquisar;
 
@@ -49,15 +58,35 @@ public class HelloController {
 
     @FXML
     protected void onClickCadastrar () {
+        if (txtNome.getText().equals("")){
+            campoVasio("Nome em branco");
+            txtNome.requestFocus();
+        } else if (txtEmail.getText().equals("")) {
+            campoVasio("Email em branco");
+            txtEmail.requestFocus();
+        } else if (txtTelefone.getText().equals("")) {
+            campoVasio("Telefone em branco");
+            txtTelefone.requestFocus();
+        }else {
 
-        String sexo = rbMasculino.isSelected()? "Masculino" : "Feminino";
-        int id = listaClientes.size() + 1;
 
-        cliente = new Cliente(id, txtNome.getText(), txtEmail.getText(), txtTelefone.getText(),sexo,chkCasado.isSelected());
+            String sexo = rbMasculino.isSelected() ? "Masculino" : "Feminino";
+            int id = listaClientes.size() + 1;
 
-        listaClientes.add(cliente);
-        txtAreaDados.setText(listaClientes.toString());
-        limparCampos();
+            cliente = new Cliente(id, txtNome.getText(), txtEmail.getText(), txtTelefone.getText(), sexo, chkCasado.isSelected());
+
+            listaClientes.add(cliente);
+            txtAreaDados.setText(listaClientes.toString());
+
+            clienteDao.setConnection(connection);
+            if (clienteDao.inserir(cliente)){
+                aviso("Registro Salvo","Cadastro do Cliente","Salvo com Sucesso");
+            }else {
+                aviso("Salvar Registro","Cadastro dop Cliente","Erro ao Salvar");
+            }
+
+            limparCampos();
+        }
 
     }
 
@@ -69,6 +98,14 @@ public class HelloController {
         rbFeminino.setSelected(false);
         chkCasado.setSelected(false);
         txtNome.requestFocus();
+    }
+    private void campoVasio(String msg){
+        Alert alerta = new Alert(Alert.AlertType.WARNING);
+        alerta.setTitle("ERRO");
+        alerta.setHeaderText("Campo em branco");
+        alerta.setContentText(msg);
+        alerta.show();
+        return;
     }
 
     @FXML
@@ -85,6 +122,17 @@ public class HelloController {
             alertError.show();
             return;
         }
+        clienteDao.setConnection(connection);
+
+        try {
+            clienteDao.getClienteById(idBusca);
+            aviso("Buscar Cliente","Busca Realizada","Busca efetuada com sucesso!!");
+        }catch (Exception err){
+            aviso("Buscar Cliente","Erro de Busca","Não foi possivel efetuar a busca");
+        }
+
+
+
 
         for (int i = 0; i < listaClientes.size(); i++) {
             if (listaClientes.get(i).getId() == idBusca){
@@ -101,6 +149,7 @@ public class HelloController {
             }
         }
     }
+
 
     private void populaCampos(Cliente cli){
         txtNome.setText(cli.getNome());
@@ -119,6 +168,15 @@ public class HelloController {
         }else {
             chkCasado.setSelected(false);
         }
+    }
+    private void aviso (String title, String header, String content){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.show();
+        return;
     }
 
 }
