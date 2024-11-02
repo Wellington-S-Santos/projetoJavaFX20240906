@@ -86,20 +86,34 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Button>
-      <HBox alignment="CENTER" prefHeight="30.0" prefWidth="437.0" spacing="2.0">
+      <HBox alignment="CENTER" prefHeight="43.0" prefWidth="442.0" spacing="2.0">
          <children>
-            <TextField fx:id="txtBusca" prefHeight="44.0" prefWidth="325.0" promptText="Digite o código: ">
+            <TextField fx:id="txtBusca" prefHeight="44.0" prefWidth="454.0" promptText="Digite o código: ">
                <font>
                   <Font size="20.0" />
                </font>
             </TextField>
-            <Button fx:id="btnPesquisar" mnemonicParsing="false" onAction="#onBuscarCliente" prefHeight="44.0" prefWidth="118.0" text="Pesquisar">
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="43.0" prefWidth="442.0" spacing="2.0">
+         <children>
+            <Button fx:id="btnPesquisar" mnemonicParsing="false" onAction="#onBuscarCliente" prefHeight="44.0" prefWidth="122.0" text="Pesquisar">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnBuscarBD" mnemonicParsing="false" onAction="#onBuscarClienteBD" prefHeight="44.0" prefWidth="199.0" text=" Buscar no Banco">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#onDeletarClienteBD" prefHeight="44.0" prefWidth="115.0" text="Deletar">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Button>
          </children>
       </HBox>
-      <TextArea fx:id="txtAreaDados" prefHeight="220.0" prefWidth="442.0" />
+      <TextArea fx:id="txtAreaDados" prefHeight="185.0" prefWidth="442.0" />
    </children>
 </VBox>

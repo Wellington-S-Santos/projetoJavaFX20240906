@@ -3,13 +3,19 @@ package br.com.etec.aula20240906;
 import br.com.etec.aula20240906.model.dao.ClienteDao;
 import br.com.etec.aula20240906.model.database.Database;
 import br.com.etec.aula20240906.model.database.DatabaseFactory;
+import br.com.etec.aula20240906.model.database.DatabaseMySQL;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import br.com.etec.aula20240906.model.Cliente;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class HelloController {
     //atributos para manipulação do banco de dados.
@@ -45,11 +51,16 @@ public class HelloController {
     private TextField txtTelefone;
 
     @FXML
-    private  TextField txtBusca;
+    private TextField txtBusca;
 
     @FXML
     private Button btnPesquisar;
 
+    @FXML
+    private Button btnBuscarBD;
+
+    @FXML
+    private  Button btnDelete;
 
 
     private Cliente cliente;
@@ -57,8 +68,8 @@ public class HelloController {
     private List<Cliente> listaClientes = new ArrayList<>();
 
     @FXML
-    protected void onClickCadastrar () {
-        if (txtNome.getText().equals("")){
+    protected void onClickCadastrar() {
+        if (txtNome.getText().equals("")) {
             campoVasio("Nome em branco");
             txtNome.requestFocus();
         } else if (txtEmail.getText().equals("")) {
@@ -67,7 +78,7 @@ public class HelloController {
         } else if (txtTelefone.getText().equals("")) {
             campoVasio("Telefone em branco");
             txtTelefone.requestFocus();
-        }else {
+        } else {
 
 
             String sexo = rbMasculino.isSelected() ? "Masculino" : "Feminino";
@@ -79,10 +90,10 @@ public class HelloController {
             txtAreaDados.setText(listaClientes.toString());
 
             clienteDao.setConnection(connection);
-            if (clienteDao.inserir(cliente)){
-                aviso("Registro Salvo","Cadastro do Cliente","Salvo com Sucesso");
-            }else {
-                aviso("Salvar Registro","Cadastro dop Cliente","Erro ao Salvar");
+            if (clienteDao.inserir(cliente)) {
+                aviso("Registro Salvo", "Cadastro do Cliente", "Salvo com Sucesso");
+            } else {
+                aviso("Salvar Registro", "Cadastro dop Cliente", "Erro ao Salvar");
             }
 
             limparCampos();
@@ -90,7 +101,7 @@ public class HelloController {
 
     }
 
-    private void limparCampos(){
+    private void limparCampos() {
         txtNome.setText("");
         txtTelefone.setText("");
         txtEmail.setText("");
@@ -99,7 +110,8 @@ public class HelloController {
         chkCasado.setSelected(false);
         txtNome.requestFocus();
     }
-    private void campoVasio(String msg){
+
+    private void campoVasio(String msg) {
         Alert alerta = new Alert(Alert.AlertType.WARNING);
         alerta.setTitle("ERRO");
         alerta.setHeaderText("Campo em branco");
@@ -109,12 +121,12 @@ public class HelloController {
     }
 
     @FXML
-    protected void onBuscarCliente () {
+    protected void onBuscarCliente() {
         Integer idBusca;
 
         try {
             idBusca = Integer.parseInt(txtBusca.getText());
-        } catch (Exception err){
+        } catch (Exception err) {
             Alert alertError = new Alert(Alert.AlertType.ERROR);
             alertError.setTitle("Erro");
             alertError.setHeaderText("Erro de conversão");
@@ -122,23 +134,12 @@ public class HelloController {
             alertError.show();
             return;
         }
-        clienteDao.setConnection(connection);
-
-        try {
-            clienteDao.getClienteById(idBusca);
-            aviso("Buscar Cliente","Busca Realizada","Busca efetuada com sucesso!!");
-        }catch (Exception err){
-            aviso("Buscar Cliente","Erro de Busca","Não foi possivel efetuar a busca");
-        }
-
-
-
 
         for (int i = 0; i < listaClientes.size(); i++) {
-            if (listaClientes.get(i).getId() == idBusca){
+            if (listaClientes.get(i).getId() == idBusca) {
                 Cliente cliente1 = listaClientes.get(i);
                 populaCampos(cliente1);
-            } else if (listaClientes.size()< Integer.parseInt(txtBusca.getText())) {
+            } else if (listaClientes.size() < Integer.parseInt(txtBusca.getText())) {
                 Alert alertError = new Alert(Alert.AlertType.ERROR);
                 alertError.setTitle("Erro");
                 alertError.setHeaderText("Erro de busca.");
@@ -151,25 +152,26 @@ public class HelloController {
     }
 
 
-    private void populaCampos(Cliente cli){
+    private void populaCampos(Cliente cli) {
         txtNome.setText(cli.getNome());
         txtEmail.setText(cli.getEmail());
         txtTelefone.setText(cli.getTelefone());
 
-        if(cli.getSexo().equals("Feminino")){
+        if (cli.getSexo().equals("Feminino")) {
             rbFeminino.setSelected(true);
             rbMasculino.setSelected(false);
-        }else {
+        } else {
             rbFeminino.setSelected(false);
             rbMasculino.setSelected(true);
         }
-        if (cli.getCasado()){
+        if (cli.getCasado()) {
             chkCasado.setSelected(true);
-        }else {
+        } else {
             chkCasado.setSelected(false);
         }
     }
-    private void aviso (String title, String header, String content){
+
+    private void aviso(String title, String header, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
         alert.setTitle(title);
@@ -178,5 +180,63 @@ public class HelloController {
         alert.show();
         return;
     }
+
+    @FXML
+    protected void onBuscarClienteBD() {
+        Integer idBusca;
+
+        try {
+            idBusca = Integer.parseInt(txtBusca.getText());
+        } catch (Exception err) {
+            Alert alertError = new Alert(Alert.AlertType.ERROR);
+            alertError.setTitle("Erro");
+            alertError.setHeaderText("Erro de conversão");
+            alertError.setContentText("O campo não é um número valido");
+            alertError.show();
+            return;
+        }
+        clienteDao.setConnection(connection);
+        cliente = clienteDao.getClienteById(idBusca);
+
+        if (cliente.getId()!= null){
+            populaCampos(cliente);
+        }else {
+            Alert alertError = new Alert(Alert.AlertType.INFORMATION);
+            alertError.setTitle("Busca Cliente");
+            alertError.setHeaderText("Busca de Cliente");
+            alertError.setContentText("Não existe cliente com esse código");
+            alertError.show();
+
+        }
+
+    }
+    @FXML
+    protected void onDeletarClienteBD() {
+        Integer idBusca;
+
+        try {
+            idBusca = Integer.parseInt(txtBusca.getText());
+        } catch (Exception err) {
+            Alert alertError = new Alert(Alert.AlertType.ERROR);
+            alertError.setTitle("Erro");
+            alertError.setHeaderText("Erro de conversão");
+            alertError.setContentText("O campo não é um número valido");
+            alertError.show();
+            return;
+        }
+        clienteDao.setConnection(connection);
+        try {
+            clienteDao.delete(idBusca);
+        }catch (Exception err) {
+            Alert alertError = new Alert(Alert.AlertType.ERROR);
+            alertError.setTitle("Erro");
+            alertError.setHeaderText("Erro de Deletar");
+            alertError.setContentText("O campo não foi deletado");
+            alertError.show();
+            return;
+        }
+        limparCampos();
+    }
+
 
 }

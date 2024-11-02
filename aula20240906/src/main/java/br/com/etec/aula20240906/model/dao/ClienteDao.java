@@ -36,8 +36,9 @@ public class ClienteDao {
            return false;
        }
     }
+
     public Cliente getClienteById(int id){
-        String sql="SELECT * FROM clientes WHERE id = ?;";
+        String sql="SELECT * FROM clientes WHERE id = ?";
         Cliente retorno = new Cliente();
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -59,6 +60,23 @@ public class ClienteDao {
             return null;
         }
         return retorno;
+    }
+
+    public void delete (int id){
+        String sql="DELETE FROM `clientes` WHERE id = ?";
+
+        try {
+
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1,id);
+            stmt.executeUpdate();
+
+
+        }catch (SQLException ex){
+            Logger.getLogger(DatabaseMySQL.class.getName()).log(Level.SEVERE,null,ex);
+
+        }
+
     }
 
 
