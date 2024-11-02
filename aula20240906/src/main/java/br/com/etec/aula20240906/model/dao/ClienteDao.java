@@ -62,7 +62,7 @@ public class ClienteDao {
         return retorno;
     }
 
-    public void delete (int id){
+    public Boolean delete (int id){
         String sql="DELETE FROM `clientes` WHERE id = ?";
 
         try {
@@ -70,10 +70,12 @@ public class ClienteDao {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1,id);
             stmt.executeUpdate();
+            return true;
 
 
         }catch (SQLException ex){
             Logger.getLogger(DatabaseMySQL.class.getName()).log(Level.SEVERE,null,ex);
+            return false;
 
         }
 

@@ -225,15 +225,12 @@ public class HelloController {
             return;
         }
         clienteDao.setConnection(connection);
-        try {
-            clienteDao.delete(idBusca);
-        }catch (Exception err) {
-            Alert alertError = new Alert(Alert.AlertType.ERROR);
-            alertError.setTitle("Erro");
-            alertError.setHeaderText("Erro de Deletar");
-            alertError.setContentText("O campo não foi deletado");
-            alertError.show();
-            return;
+
+
+        if (clienteDao.delete(idBusca)) {
+            aviso("Deletar Cliente", "Cliente deletado", "Cliente deletado com Sucesso");
+        } else {
+            aviso("Deletar Cliente", "Erro ", "Erro ao Deletar Cliente");
         }
         limparCampos();
     }
