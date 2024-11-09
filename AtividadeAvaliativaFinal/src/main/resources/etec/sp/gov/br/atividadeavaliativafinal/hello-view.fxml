@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" prefHeight="655.0" prefWidth="653.0" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/22" fx:controller="etec.sp.gov.br.atividadeavaliativafinal.HelloController">
+  <padding>
+    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+  </padding>
+   <children>
+      <HBox alignment="CENTER" prefHeight="44.0" prefWidth="579.0">
+         <children>
+            <Label contentDisplay="CENTER" text="Número da Sala: " textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtNumeroSala" prefHeight="44.0" prefWidth="491.0" promptText="Digite o número da sala">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="44.0" prefWidth="579.0">
+         <children>
+            <Label contentDisplay="CENTER" text="Curso: " textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtCurso" prefHeight="44.0" prefWidth="561.0" promptText="Digite o nome do curso: ">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="44.0" prefWidth="579.0">
+         <children>
+            <Label contentDisplay="CENTER" text="Disciplina: " textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtDisciplina" prefHeight="44.0" prefWidth="531.0" promptText="Digite o nome da disciplina: ">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="44.0" prefWidth="579.0">
+         <children>
+            <Label contentDisplay="CENTER" text="Professor: " textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtProfessor" prefHeight="44.0" prefWidth="537.0" promptText="Digite o nome do professor: ">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="44.0" prefWidth="579.0">
+         <children>
+            <Label contentDisplay="CENTER" prefHeight="44.0" prefWidth="44.0" text="Data: " textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtData" prefHeight="44.0" prefWidth="91.0" promptText="data:">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+            <Label contentDisplay="CENTER" text=" Hora Entrada: " textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtHoraEntrada" prefHeight="44.0" prefWidth="142.0" promptText="Hora de Entrada:">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+            <Label contentDisplay="CENTER" text=" Hora Saida: " textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtHoraSaida" prefHeight="44.0" prefWidth="132.0" promptText="Hora de Saida:">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="44.0" prefWidth="579.0" spacing="20.0">
+         <children>
+            <RadioButton fx:id="rbManha" mnemonicParsing="false" text="Manhã">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="rbTarde" mnemonicParsing="false" text="Tarde">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="rbNoite" mnemonicParsing="false" text="Noite">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </RadioButton>
+            <CheckBox fx:id="chkInformatica" mnemonicParsing="false" text="Informática">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </CheckBox>
+         </children>
+      </HBox>
+      <HBox prefHeight="43.0" prefWidth="613.0">
+         <children>
+            <TextField fx:id="txtCodigo" prefHeight="25.0" prefWidth="608.0" promptText="Digiti o Código:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </TextField>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="43.0" prefWidth="613.0" spacing="20.0">
+         <children>
+            <Button fx:id="btnBuscar" mnemonicParsing="false" text="Buscar">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnDeletar" mnemonicParsing="false" text="Deletar">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+      <HBox prefHeight="43.0" prefWidth="613.0" />
+   </children>
+</VBox>
