@@ -213,6 +213,8 @@ public class HelloController {
     @FXML
     protected void onDeletarClienteBD() {
         Integer idBusca;
+        Cliente clienteDeletado = null;
+
 
         try {
             idBusca = Integer.parseInt(txtBusca.getText());
@@ -224,11 +226,12 @@ public class HelloController {
             alertError.show();
             return;
         }
-        clienteDao.setConnection(connection);
 
+        clienteDao.setConnection(connection);
+        clienteDeletado = cliente;
 
         if (clienteDao.delete(idBusca)) {
-            aviso("Deletar Cliente", "Cliente deletado", "Cliente deletado com Sucesso");
+            aviso("Deletar Cliente", "Cliente deletado", "O Cliente "+ cliente.getNome()+" foi deletado com Sucesso");
         } else {
             aviso("Deletar Cliente", "Erro ", "Erro ao Deletar Cliente");
         }
