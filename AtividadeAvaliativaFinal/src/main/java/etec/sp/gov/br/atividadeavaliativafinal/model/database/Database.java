@@ -1,0 +1,10 @@
+package etec.sp.gov.br.atividadeavaliativafinal.model.database;
+
+
+import java.sql.Connection;
+
+public interface Database {
+    public Connection conectar();
+    public void desconectar();
+
+}
