@@ -5,12 +5,15 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" prefHeight="655.0" prefWidth="653.0" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/22" fx:controller="etec.sp.gov.br.atividadeavaliativafinal.HelloController">
+<VBox alignment="TOP_CENTER" prefHeight="763.0" prefWidth="666.0" spacing="20.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="etec.sp.gov.br.atividadeavaliativafinal.HelloController">
   <padding>
     <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
   </padding>
@@ -78,7 +81,7 @@
                   <Font name="System Bold" size="15.0" />
                </font>
             </Label>
-            <TextField fx:id="txtData" prefHeight="44.0" prefWidth="91.0" promptText="data:">
+            <TextField fx:id="txtData" prefHeight="44.0" prefWidth="130.0" promptText="data:">
                <font>
                   <Font size="15.0" />
                </font>
@@ -88,7 +91,7 @@
                   <Font name="System Bold" size="15.0" />
                </font>
             </Label>
-            <TextField fx:id="txtHoraEntrada" prefHeight="44.0" prefWidth="142.0" promptText="Hora de Entrada:">
+            <TextField fx:id="txtHoraEntrada" prefHeight="44.0" prefWidth="128.0" promptText="Hora de Entrada:">
                <font>
                   <Font size="15.0" />
                </font>
@@ -98,7 +101,7 @@
                   <Font name="System Bold" size="15.0" />
                </font>
             </Label>
-            <TextField fx:id="txtHoraSaida" prefHeight="44.0" prefWidth="132.0" promptText="Hora de Saida:">
+            <TextField fx:id="txtHoraSaida" prefHeight="44.0" prefWidth="114.0" promptText="Hora de Saida:">
                <font>
                   <Font size="15.0" />
                </font>
@@ -111,13 +114,16 @@
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
+               <toggleGroup>
+                  <ToggleGroup fx:id="grpTurno" />
+               </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="rbTarde" mnemonicParsing="false" text="Tarde">
+            <RadioButton fx:id="rbTarde" mnemonicParsing="false" text="Tarde" toggleGroup="$grpTurno">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </RadioButton>
-            <RadioButton fx:id="rbNoite" mnemonicParsing="false" text="Noite">
+            <RadioButton fx:id="rbNoite" mnemonicParsing="false" text="Noite" toggleGroup="$grpTurno">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
@@ -129,29 +135,49 @@
             </CheckBox>
          </children>
       </HBox>
-      <HBox prefHeight="43.0" prefWidth="613.0">
+      <HBox alignment="CENTER" prefHeight="43.0" prefWidth="613.0" spacing="20.0">
          <children>
-            <TextField fx:id="txtCodigo" prefHeight="25.0" prefWidth="608.0" promptText="Digiti o Código:">
+            <Button fx:id="btnCadastrar" mnemonicParsing="false" onAction="#onClickCadastrar" text="Cadastrar">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="43.0" prefWidth="613.0" spacing="5.0">
+         <children>
+            <TextField fx:id="txtCodigo" prefHeight="44.0" prefWidth="424.0" promptText="Digiti o Código:">
                <font>
                   <Font size="20.0" />
                </font>
             </TextField>
-         </children>
-      </HBox>
-      <HBox alignment="CENTER" prefHeight="43.0" prefWidth="613.0" spacing="20.0">
-         <children>
-            <Button fx:id="btnBuscar" mnemonicParsing="false" text="Buscar">
+            <Button fx:id="btnBuscar" mnemonicParsing="false" onAction="#onClickBuscar" text="Buscar">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Button>
-            <Button fx:id="btnDeletar" mnemonicParsing="false" text="Deletar">
+            <Button fx:id="btnDeletar" mnemonicParsing="false" onAction="#onClickDelete" text="Deletar">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Button>
-         </children>
-      </HBox>
-      <HBox prefHeight="43.0" prefWidth="613.0" />
+         </children></HBox>
+      <TableView fx:id="tbvReservas" prefHeight="223.0" prefWidth="626.0">
+        <columns>
+          <TableColumn fx:id="tbcId" prefWidth="28.0" text="id" />
+          <TableColumn fx:id="tbcNumeroSala" minWidth="0.0" prefWidth="62.0" text="Nº Sala" />
+            <TableColumn fx:id="tbcCurso" prefWidth="64.0" text="Curso" />
+            <TableColumn fx:id="tbcDisciplina" prefWidth="79.0" text="Disciplina" />
+            <TableColumn fx:id="tbcProfessor" prefWidth="86.0" text="Professor" />
+            <TableColumn fx:id="tbcData" prefWidth="71.0" text="Data" />
+            <TableColumn fx:id="tbcHoraEntrada" prefWidth="58.0" text="Entrada" />
+            <TableColumn fx:id="tbcHoraSaida" prefWidth="66.0" text="Saida" />
+            <TableColumn fx:id="tbcTurno" prefWidth="48.0" text="Turno" />
+            <TableColumn fx:id="tbcInformatica" prefWidth="70.0" text="Informatica" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
    </children>
 </VBox>

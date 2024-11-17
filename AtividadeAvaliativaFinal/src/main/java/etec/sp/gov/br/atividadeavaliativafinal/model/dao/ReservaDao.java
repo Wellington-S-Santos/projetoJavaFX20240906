@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,14 +45,15 @@ public class ReservaDao {
             return false;
         }
     }
-    public Reserva getReservaById(int id){
+    public Reserva getReservaById(int id) {
         String sql = "SELECT * FROM reserva WHERE id = ?";
         Reserva retorno = new Reserva();
-        try{
+        try {
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1,id);
+            stmt.setInt(1, id);
             ResultSet resultado = stmt.executeQuery();
-            if (resultado.next()){
+
+            if (resultado.next()) {
                 retorno.setId(resultado.getInt("id"));
                 retorno.setNumeroSala(resultado.getString("numeroSala"));
                 retorno.setCurso(resultado.getString("curso"));
@@ -61,12 +64,10 @@ public class ReservaDao {
                 retorno.setHoraSaida(resultado.getString("horaSaida"));
                 retorno.setInformatica(resultado.getBoolean("informatica"));
                 retorno.setTurno(resultado.getString("turno"));
-
+                return retorno;
             }
-
-        }catch (SQLException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(DatabaseMySQL.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
         }
         return retorno;
     }
@@ -85,5 +86,34 @@ public class ReservaDao {
         }
 
     }
+    public List<Reserva> getReservas() {
+        String sql = "SELECT * FROM reserva";
+        List<Reserva> listReservas = new ArrayList<>();
+        Reserva reserva = new Reserva();
 
+        try (PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet resultado = stmt.executeQuery()) {
+
+            if (resultado.next()) {
+                reserva.setId(resultado.getInt("id"));
+                reserva.setNumeroSala(resultado.getString("numeroSala"));
+                reserva.setCurso(resultado.getString("curso"));
+                reserva.setDisciplina(resultado.getString("disciplina"));
+                reserva.setProfessor(resultado.getString("professor"));
+                reserva.setData(resultado.getString("data"));
+                reserva.setHoraEntrada(resultado.getString("horaEntrada"));
+                reserva.setHoraSaida(resultado.getString("horaSaida"));
+                reserva.setInformatica(resultado.getBoolean("informatica"));
+                reserva.setTurno(resultado.getString("turno"));
+
+
+                listReservas.add(reserva);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return listReservas;
+    }
 }
