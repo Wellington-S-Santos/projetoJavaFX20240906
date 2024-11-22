@@ -94,18 +94,17 @@ public class ReservaDao {
         try (PreparedStatement stmt = connection.prepareStatement(sql);
              ResultSet resultado = stmt.executeQuery()) {
 
-            if (resultado.next()) {
+            while (resultado.next()) {
                 reserva.setId(resultado.getInt("id"));
                 reserva.setNumeroSala(resultado.getString("numeroSala"));
                 reserva.setCurso(resultado.getString("curso"));
                 reserva.setDisciplina(resultado.getString("disciplina"));
                 reserva.setProfessor(resultado.getString("professor"));
                 reserva.setData(resultado.getString("data"));
-                reserva.setHoraEntrada(resultado.getString("horaEntrada"));
-                reserva.setHoraSaida(resultado.getString("horaSaida"));
+                reserva.setHoraEntrada(resultado.getString("horarioEntrada"));
+                reserva.setHoraSaida(resultado.getString("horarioSaida"));
                 reserva.setInformatica(resultado.getBoolean("informatica"));
                 reserva.setTurno(resultado.getString("turno"));
-
 
                 listReservas.add(reserva);
             }

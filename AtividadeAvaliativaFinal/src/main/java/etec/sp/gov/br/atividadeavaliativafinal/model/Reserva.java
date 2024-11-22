@@ -12,8 +12,7 @@ public class Reserva {
     private Boolean informatica;
     private String turno;
 
-    public Reserva(Integer id, String numeroSala, String curso, String disciplina, String professor, String data, String horaEntrada, String horaSaida, Boolean informatica, String turno) {
-        this.id = id;
+    public Reserva(String numeroSala, String curso, String disciplina, String professor, String data, String horaEntrada, String horaSaida, Boolean informatica, String turno) {
         this.numeroSala = numeroSala;
         this.curso = curso;
         this.disciplina = disciplina;

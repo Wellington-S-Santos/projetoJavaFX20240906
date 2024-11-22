@@ -87,8 +87,7 @@ public class HelloController {
     @FXML
     public void initialize() {
         // Inicializa a ObservableList e a associa à TableView
-        listReservas = FXCollections.observableArrayList();
-        tbvReservas.setItems(listReservas);
+
 
         tbcId.setCellValueFactory(new PropertyValueFactory<>("id"));
         tbcNumeroSala.setCellValueFactory(new PropertyValueFactory<>("numeroSala"));
@@ -101,7 +100,9 @@ public class HelloController {
         tbcTurno.setCellValueFactory(new PropertyValueFactory<>("turno"));
         tbcInformatica.setCellValueFactory(new PropertyValueFactory<>("informatica"));
 
-        carregarDados();
+        reservaDao.setConnection(connection);
+        tbvReservas.setItems(FXCollections.observableArrayList(reservaDao.getReservas()));
+
     }
 
     @FXML
@@ -133,9 +134,9 @@ public class HelloController {
             txtHoraSaida.requestFocus();
         } else {
             String turno = rbManha.isSelected() ? "Manhã" : rbTarde.isSelected() ? "Tarde" : "Noite";
-            int id = listReservas.size() + 1;
+            //int id = listReservas.size() + 1;
 
-            reserva = new Reserva(id, txtNumeroSala.getText(), txtCurso.getText(), txtDisciplina.getText(), txtProfessor.getText(), txtData.getText(), txtHoraEntrada.getText(), txtHoraSaida.getText(), chkInformatica.isSelected(), turno);
+            reserva = new Reserva(txtNumeroSala.getText(), txtCurso.getText(), txtDisciplina.getText(), txtProfessor.getText(), txtData.getText(), txtHoraEntrada.getText(), txtHoraSaida.getText(), chkInformatica.isSelected(), turno);
             listReservas.add(reserva);
 
             reservaDao.setConnection(connection);
@@ -262,11 +263,14 @@ public class HelloController {
         return;
     }
 
-
-    private void carregarDados (){
-        reservaDao.setConnection(connection);
-        listReservas.clear();  // Limpa a lista antes de adicionar novos dados
-        listReservas.addAll(reservaDao.getReservas());
+    @FXML
+    protected void onMouseClick(){
+        TablePosition pos = tbvReservas.getSelectionModel().getSelectedCells().get(0);
+        int row = pos.getRow();
+        Reserva rev= tbvReservas.getItems().get(row);
+        populaCampos(rev);
     }
+
+
 
 }
