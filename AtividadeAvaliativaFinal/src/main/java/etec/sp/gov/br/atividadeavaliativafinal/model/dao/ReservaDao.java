@@ -60,8 +60,8 @@ public class ReservaDao {
                 retorno.setDisciplina(resultado.getString("disciplina"));
                 retorno.setProfessor(resultado.getString("professor"));
                 retorno.setData(resultado.getString("data"));
-                retorno.setHoraEntrada(resultado.getString("horaEntrada"));
-                retorno.setHoraSaida(resultado.getString("horaSaida"));
+                retorno.setHoraEntrada(resultado.getString("horarioEntrada"));
+                retorno.setHoraSaida(resultado.getString("horarioSaida"));
                 retorno.setInformatica(resultado.getBoolean("informatica"));
                 retorno.setTurno(resultado.getString("turno"));
                 return retorno;
@@ -89,12 +89,12 @@ public class ReservaDao {
     public List<Reserva> getReservas() {
         String sql = "SELECT * FROM reserva";
         List<Reserva> listReservas = new ArrayList<>();
-        Reserva reserva = new Reserva();
 
         try (PreparedStatement stmt = connection.prepareStatement(sql);
              ResultSet resultado = stmt.executeQuery()) {
 
             while (resultado.next()) {
+                Reserva reserva = new Reserva();
                 reserva.setId(resultado.getInt("id"));
                 reserva.setNumeroSala(resultado.getString("numeroSala"));
                 reserva.setCurso(resultado.getString("curso"));
@@ -114,5 +114,32 @@ public class ReservaDao {
         }
 
         return listReservas;
+    }
+    public Boolean update(Reserva reserva) {
+        String sql = "UPDATE reserva SET numeroSala = ?, curso = ?, disciplina = ?, professor = ?, data = ?, horarioEntrada = ?, horarioSaida = ?, informatica = ?, turno = ? WHERE id = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1, reserva.getNumeroSala());
+            stmt.setString(2, reserva.getCurso());
+            stmt.setString(3, reserva.getDisciplina());
+            stmt.setString(4, reserva.getProfessor());
+            stmt.setString(5, reserva.getData());
+            stmt.setString(6, reserva.getHoraEntrada());
+            stmt.setString(7, reserva.getHoraSaida());
+            stmt.setBoolean(8, reserva.getInformatica());
+            stmt.setString(9, reserva.getTurno());
+            stmt.setInt(10, reserva.getId());
+
+
+          stmt.executeUpdate();
+
+
+            return true;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseMySQL.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 }

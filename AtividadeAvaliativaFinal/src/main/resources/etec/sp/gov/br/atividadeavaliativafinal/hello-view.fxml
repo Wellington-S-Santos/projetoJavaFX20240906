@@ -108,8 +108,18 @@
             </TextField>
          </children>
       </HBox>
-      <HBox alignment="CENTER" prefHeight="44.0" prefWidth="579.0" spacing="20.0">
+      <HBox alignment="CENTER" prefHeight="44.0" prefWidth="579.0" spacing="10.0">
          <children>
+            <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="44.0" prefWidth="44.0" text="ID:" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtId" alignment="CENTER" editable="false" prefHeight="43.0" prefWidth="65.0" promptText="ID:">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
             <RadioButton fx:id="rbManha" mnemonicParsing="false" text="Manhã">
                <font>
                   <Font name="System Bold" size="15.0" />
@@ -162,7 +172,7 @@
                </font>
             </Button>
          </children></HBox>
-      <TableView fx:id="tbvReservas" prefHeight="223.0" prefWidth="626.0">
+      <TableView fx:id="tbvReservas" onMouseClicked="#onMouseClick" prefHeight="223.0" prefWidth="626.0">
         <columns>
           <TableColumn fx:id="tbcId" prefWidth="28.0" text="id" />
           <TableColumn fx:id="tbcNumeroSala" minWidth="0.0" prefWidth="62.0" text="Nº Sala" />

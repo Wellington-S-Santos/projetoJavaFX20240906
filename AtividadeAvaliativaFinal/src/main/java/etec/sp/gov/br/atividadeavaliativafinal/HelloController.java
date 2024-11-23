@@ -35,6 +35,8 @@ public class HelloController {
     @FXML
     private TextField txtHoraSaida;
     @FXML
+    private TextField txtId;
+    @FXML
     private ToggleGroup grpTurno;
     @FXML
     private RadioButton rbManha;
@@ -103,54 +105,72 @@ public class HelloController {
         reservaDao.setConnection(connection);
         tbvReservas.setItems(FXCollections.observableArrayList(reservaDao.getReservas()));
 
+
+    }
+    public void carregarReservas(List<Reserva> reservas) {
+        tbvReservas.setItems(FXCollections.observableArrayList(reservas));
     }
 
     @FXML
     protected void onClickCadastrar() {
-        if (listReservas == null) {
-            listReservas = FXCollections.observableArrayList();
-        }
 
-        if(txtNumeroSala.getText().trim().isEmpty()) {
-            campoVazio("Número da sala está vazio");
-            txtNumeroSala.requestFocus();
-        } else if (txtCurso.getText().trim().isEmpty()) {
-            campoVazio("O Curso está vazio");
-            txtCurso.requestFocus();
-        } else if (txtDisciplina.getText().trim().isEmpty()) {
-            campoVazio("A Disciplina está vazia");
-            txtDisciplina.requestFocus();
-        } else if (txtProfessor.getText().trim().isEmpty()) {
-            campoVazio("O campo Professor está vazio");
-            txtProfessor.requestFocus();
-        } else if (txtData.getText().trim().isEmpty()) {
-            campoVazio("A data não foi informada");
-            txtData.requestFocus();
-        } else if (txtHoraEntrada.getText().trim().isEmpty()) {
-            campoVazio("Hora de Entrada não informada");
-            txtHoraEntrada.requestFocus();
-        } else if (txtHoraSaida.getText().trim().isEmpty()) {
-            campoVazio("Hora de Saída não informada");
-            txtHoraSaida.requestFocus();
-        } else {
-            String turno = rbManha.isSelected() ? "Manhã" : rbTarde.isSelected() ? "Tarde" : "Noite";
-            //int id = listReservas.size() + 1;
-
-            reserva = new Reserva(txtNumeroSala.getText(), txtCurso.getText(), txtDisciplina.getText(), txtProfessor.getText(), txtData.getText(), txtHoraEntrada.getText(), txtHoraSaida.getText(), chkInformatica.isSelected(), turno);
-            listReservas.add(reserva);
-
-            reservaDao.setConnection(connection);
-            if (reservaDao.inserir(reserva)) {
-                aviso("Registro Salvo", "Cadastro da Reserva", "Reserva cadastrada com sucesso");
+            if (txtNumeroSala.getText().equals(" ")) {
+                campoVazio("Número da sala está vazio");
+                txtNumeroSala.requestFocus();
+            } else if (txtCurso.getText().equals("")) {
+                campoVazio("O Curso está vazio");
+                txtCurso.requestFocus();
+            } else if (txtDisciplina.getText().equals("")) {
+                campoVazio("A Disciplina está vazia");
+                txtDisciplina.requestFocus();
+            } else if (txtProfessor.getText().equals("")) {
+                campoVazio("O campo Professor está vazio");
+                txtProfessor.requestFocus();
+            } else if (txtData.getText().equals("")) {
+                campoVazio("A data não foi informada");
+                txtData.requestFocus();
+            } else if (txtHoraEntrada.getText().equals("")) {
+                campoVazio("Hora de Entrada não informada");
+                txtHoraEntrada.requestFocus();
+            } else if (txtHoraSaida.getText().equals("")) {
+                campoVazio("Hora de Saída não informada");
+                txtHoraSaida.requestFocus();
             } else {
-                aviso("Erro", "Erro ao cadastrar a Reserva", "Cadastro da Reserva mal sucedido");
-            }
+                String turno = rbManha.isSelected() ? "Manhã" : rbTarde.isSelected() ? "Tarde" : "Noite";
+                //int id = listReservas.size() + 1;
 
+                reserva = new Reserva(txtNumeroSala.getText(), txtCurso.getText(), txtDisciplina.getText(), txtProfessor.getText(), txtData.getText(), txtHoraEntrada.getText(), txtHoraSaida.getText(), chkInformatica.isSelected(), turno);
+
+            }
+            Boolean cadastro = false;
+
+            if (txtId.getText().equals(" ")) {
+                cadastro = true;
+                reservaDao.setConnection(connection);
+                if (reservaDao.inserir(reserva)) {
+                    aviso("Registro Salvo", "Cadastro da Reserva", "Reserva cadastrada com sucesso");
+                } else {
+                    aviso("Erro", "Erro ao cadastrar a Reserva", "Cadastro da Reserva mal sucedido");
+                }
+                limparCampos();
+            } else {
+                cadastro =false;
+            reservaDao.setConnection((connection));
+
+            if (reservaDao.update(reserva)){
+                aviso("Registro Atualizado", "Atualização da Reserva", "Reserva atualizada com sucesso");
+            }else {
+                aviso("Erro", "Erro ao atualizar a Reserva", "Atualização da Reserva mal sucedido");
+            }
             limparCampos();
+
         }
+
+
     }
 
     private void populaCampos(Reserva rsv){
+
         txtNumeroSala.setText(rsv.getNumeroSala());
         txtCurso.setText(rsv.getCurso());
         txtDisciplina.setText(rsv.getDisciplina());
@@ -158,6 +178,10 @@ public class HelloController {
         txtData.setText(rsv.getData());
         txtHoraEntrada.setText(rsv.getHoraEntrada());
         txtHoraSaida.setText(rsv.getHoraSaida());
+
+        if (rsv.getId() != null){
+            txtId.setText(String.valueOf(rsv.getId()));
+        }
 
         if (rsv.getTurno().equals("Noite")){
             rbNoite.setSelected(true);
@@ -172,6 +196,8 @@ public class HelloController {
             rbTarde.setSelected(false);
             rbManha.setSelected(true);
         }
+
+
         if (rsv.getInformatica()){
             chkInformatica.setSelected(true);
         }else{

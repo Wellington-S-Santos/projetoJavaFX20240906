@@ -22,6 +22,8 @@ public class Reserva {
         this.horaSaida = horaSaida;
         this.informatica = informatica;
         this.turno = turno;
+
+
     }
 
     public Reserva() {
