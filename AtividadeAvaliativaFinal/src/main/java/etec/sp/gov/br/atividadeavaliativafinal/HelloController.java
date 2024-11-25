@@ -115,6 +115,7 @@ public class HelloController {
 
     @FXML
     protected void onClickCadastrar() {
+        id = null;
 
         if (txtNumeroSala.getText().equals(" ")) {
             campoVazio("Número da sala está vazio");
@@ -143,6 +144,11 @@ public class HelloController {
 
             reserva = new Reserva(txtNumeroSala.getText(), txtCurso.getText(), txtDisciplina.getText(), txtProfessor.getText(), txtData.getText(), txtHoraEntrada.getText(), txtHoraSaida.getText(), chkInformatica.isSelected(), turno);
 
+        }
+
+        if (reserva.getId() != null){
+            txtId.setText(String.valueOf(reserva.getId()));
+            id = reserva.getId();
         }
 
         reservaDao.setConnection(connection);
@@ -230,9 +236,11 @@ public class HelloController {
 
     @FXML
     protected void onClickDelete(){
+        Reserva rsv = new Reserva();
         limparCampos();
         Integer idBuscar;
         Reserva reservaDeletada = null;
+
         try{
             if (!txtCodigo.getText().isEmpty()) {
                 idBuscar = Integer.parseInt(txtCodigo.getText());
@@ -243,6 +251,7 @@ public class HelloController {
                 idBuscar = id;
             }
 
+
         }catch (Exception erro){
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setTitle("ERRO");
@@ -250,11 +259,13 @@ public class HelloController {
             alerta.setContentText("Verifique se foi informado o código corretamente");
             return;
         }
-
         reservaDao.setConnection(connection);
+
+
         reservaDeletada = reserva;
         if (reservaDao.delete(idBuscar)){
             aviso("Deletar","Deletar Reserva","Reserva da disciplina : "+ reservaDeletada.getDisciplina() + " do Turno da " + reservaDeletada.getTurno() + " deletada com sucesso");
+            id=null;
         }else {
             aviso("Deletar","Deletar Reserva","Erro ao deletar a Reserva !!");
         }
