@@ -115,7 +115,6 @@ public class HelloController {
 
     @FXML
     protected void onClickCadastrar() {
-        id = null;
 
         if (txtNumeroSala.getText().equals(" ")) {
             campoVazio("Número da sala está vazio");
@@ -146,16 +145,14 @@ public class HelloController {
 
         }
 
-        if (reserva.getId() != null){
-            txtId.setText(String.valueOf(reserva.getId()));
-            id = reserva.getId();
-        }
 
         reservaDao.setConnection(connection);
         if (id != null) {
+
             reserva.setId(id);
             if (reservaDao.update(reserva)) {
                 aviso("Registro Atualizado", "Atualização da Reserva", "Reserva atualizada com sucesso");
+                id = null;
             } else {
                 aviso("Erro", "Erro ao atualizar a Reserva", "Atualização da Reserva mal sucedido");
             }
